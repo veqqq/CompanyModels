@@ -46,20 +46,12 @@ WHERE
     return dates, values, tickers
 end
 
-
-using DataFrames
-using Plots
-
 function plot_commodity_data(dates, values, tickers)
     df = DataFrame("Date" => dates, "Value" => values, "Ticker" => tickers)
     grouped_data = groupby(df, :Ticker)
     
     p = plot()
 
-    # Choose a line style and symbol for all plots
-    line_style = :solid
-    line_symbol = :circle
-    
     # Use a colormap for different colors for each ticker
     colors = Plots.get_color_palette(:auto, length(grouped_data))
 
@@ -68,18 +60,12 @@ function plot_commodity_data(dates, values, tickers)
         dates = group[!, "Date"]
         values = group[!, "Value"]
         color = colors[i]
-        plot!(p, dates, values, label=ticker, line=:auto, color=color, seriestype=:scatter, marker=:auto, linestyle=line_style)
+        plot!(p, dates, values, label=ticker, line=:auto, color=color, seriestype=:line)
     end
     
     plot!(p, xlabel="Date", ylabel="Stock Price", legend=:topleft)
     display(p)
 end
-
-
-
-
-
-
 
 
 function main()
